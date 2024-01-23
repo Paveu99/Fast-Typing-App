@@ -1,21 +1,24 @@
 import './App.css'
 import {Clock} from "./components/clock/Clock.tsx";
 import {InputField} from "./components/inputField/InputField.tsx";
+import {AppName} from "./components/appName/AppName.tsx";
+import {Description} from "./components/description/Description.tsx";
 
 function App() {
 
-    const word = []
-    word.push(<span style={{color: 'red'}}>H</span>)
-    word.push(<span style={{color: 'yellow'}}>H</span>)
-    word.push(<span style={{color: 'red'}}>H</span>)
-    word.join('')
-
     return (
-        <>
-            <Clock option={120}/>
-            <InputField />
-            {word}
-        </>
+        <div className="main-content">
+            <header>
+                <AppName/>
+            </header>
+            <section>
+                <Description/>
+            </section>
+            <section>
+                <Clock option={120}/>
+                <InputField />
+            </section>
+        </div>
     )
 }
 
