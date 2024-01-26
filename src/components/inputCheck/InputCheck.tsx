@@ -19,6 +19,10 @@ export const InputCheck = (props: Props) => {
     const [elapsedTime, setElapsedTime] = useState<number>(props.option * 1000);
     const intervalIdRef = useRef<null | any>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const [correctLetters, setCorrectLetters] = useState<number>(0);
+    const [coveragePercentage, setCoveragePercentage] = useState<number>(0);
+    const [started, setStarted] = useState<boolean>(false);
+
 
     const texts: Texts[] = [
         {
@@ -99,10 +103,26 @@ export const InputCheck = (props: Props) => {
     }
 
     function checkLetter(e:string) {
+
+        let percentage, correctCount
+
         if(e.length === text.text.length) {
             setIsRunning(false);
         }
-        setWrittenText(e)
+        if (e === '') {
+            percentage = 0
+            correctCount = 0
+        } else {
+            correctCount = e.split('').reduce((acc, letter, index) => {
+                return acc + (letter === text.text[index] ? 1 : 0);
+            }, 0);
+
+            percentage = (correctCount / e.length) * 100;
+        }
+
+        setCorrectLetters(correctCount);
+        setCoveragePercentage(percentage);
+        setWrittenText(e);
     }
 
     const highlightedLetters = (textInput: string, writtenText: string): React.JSX.Element[] => {
@@ -123,11 +143,15 @@ export const InputCheck = (props: Props) => {
     }
 
     function handleChange() {
+        if (text.text === '') return
+        if (writtenText.length === text.text.length) return;
         setIsRunning((prev) => !prev);
     }
 
     function reset() {
         setWrittenText('');
+        setCorrectLetters(0);
+        setCoveragePercentage(0);
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
     }
@@ -161,10 +185,20 @@ export const InputCheck = (props: Props) => {
             textareaRef.current?.focus();
         }
 
+        if(isRunning) {
+            setStarted(false)
+        } else {
+            setStarted(true)
+        }
+
         return () => {
             clearInterval(intervalIdRef.current);
         };
     }, [isRunning]);
+
+    useEffect(() => {
+        setElapsedTime(props.option * 1000)
+    }, [props.option]);
 
     return(<>
             <div>
@@ -187,8 +221,12 @@ export const InputCheck = (props: Props) => {
                     ref={textareaRef}
                     value={writtenText}
                     onChange={e => checkLetter(e.target.value)}
-                    readOnly={text.text.length === writtenText.length || text.text.length === 0}
+                    readOnly={text.text.length === writtenText.length || text.text.length === 0 || started}
                 />
+            </div>
+            <div className="live-stats">
+                <p>Correct letters: {correctLetters}/{text.text.length}</p>
+                <p>Correctness: {coveragePercentage.toFixed(2)}%</p>
             </div>
         </>
     );
