@@ -1,8 +1,7 @@
 import './App.css'
-import {Clock} from "./components/clock/Clock.tsx";
-import {InputField} from "./components/inputField/InputField.tsx";
 import {AppName} from "./components/appName/AppName.tsx";
 import {Description} from "./components/description/Description.tsx";
+import {InputCheck} from "./components/inputCheck/InputCheck.tsx";
 
 function App() {
 
@@ -15,8 +14,7 @@ function App() {
                 <Description/>
             </section>
             <section>
-                <Clock option={120}/>
-                <InputField />
+                <InputCheck option={120}/>
             </section>
         </div>
     )
