@@ -22,6 +22,7 @@ export const InputCheck = (props: Props) => {
     const [correctLetters, setCorrectLetters] = useState<number>(0);
     const [coveragePercentage, setCoveragePercentage] = useState<number>(0);
     const [started, setStarted] = useState<boolean>(false);
+    const [timeFinished, setTimeFinished] = useState<boolean>(false);
 
 
     const texts: Texts[] = [
@@ -100,11 +101,13 @@ export const InputCheck = (props: Props) => {
         setWrittenText('');
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
+        setTimeFinished(false);
     }
 
     function checkLetter(e:string) {
 
         let percentage, correctCount
+        setWrittenText(e);
 
         if(e.length === text.text.length) {
             setIsRunning(false);
@@ -122,7 +125,6 @@ export const InputCheck = (props: Props) => {
 
         setCorrectLetters(correctCount);
         setCoveragePercentage(percentage);
-        setWrittenText(e);
     }
 
     const highlightedLetters = (textInput: string, writtenText: string): React.JSX.Element[] => {
@@ -144,7 +146,11 @@ export const InputCheck = (props: Props) => {
 
     function handleChange() {
         if (text.text === '') return
-        if (writtenText.length === text.text.length) return;
+        if (writtenText.length === text.text.length) {
+            setTimeFinished(true);
+            return
+        }
+        setTimeFinished(false);
         setIsRunning((prev) => !prev);
     }
 
@@ -154,6 +160,7 @@ export const InputCheck = (props: Props) => {
         setCoveragePercentage(0);
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
+        setTimeFinished(false);
     }
 
     function formatTime(){
@@ -177,6 +184,7 @@ export const InputCheck = (props: Props) => {
                     if (newElapsedTime <= 0) {
                         clearInterval(intervalIdRef.current);
                         setIsRunning(false);
+                        setTimeFinished(true);
                         return 0;
                     }
                     return newElapsedTime;
