@@ -1,4 +1,6 @@
 import React, {JSX, useEffect, useRef, useState} from "react";
+import Modal from "react-modal"
+
 interface Props {
     option: number
 }
@@ -23,6 +25,13 @@ export const InputCheck = (props: Props) => {
     const [coveragePercentage, setCoveragePercentage] = useState<number>(0);
     const [started, setStarted] = useState<boolean>(false);
     const [timeFinished, setTimeFinished] = useState<boolean>(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const [isRunning2, setIsRunning2] = useState<boolean>(false);
+    const [elapsedTime2, setElapsedTime2] = useState<number>(4000);
+    const intervalIdRef2 = useRef<null | any>(null);
+    const [modalIsOpen2, setModalIsOpen2] = useState(false);
+    const [started2, setStarted2] = useState<boolean>(true);
 
 
     const texts: Texts[] = [
@@ -102,6 +111,7 @@ export const InputCheck = (props: Props) => {
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
         setTimeFinished(false);
+        setStarted2(true);
     }
 
     function checkLetter(e:string) {
@@ -154,6 +164,11 @@ export const InputCheck = (props: Props) => {
         setIsRunning((prev) => !prev);
     }
 
+    const startCountdown = () => {
+        setIsRunning2(true);
+        openModal2();
+    };
+
     function reset() {
         setWrittenText('');
         setCorrectLetters(0);
@@ -161,6 +176,7 @@ export const InputCheck = (props: Props) => {
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
         setTimeFinished(false);
+        setStarted2(true);
     }
 
     function formatTime(){
@@ -175,6 +191,32 @@ export const InputCheck = (props: Props) => {
 
         return `${minutes}:${seconds}:${milliseconds}`;
     }
+
+    function formatTime2(){
+
+        const seconds: number | string = Math.floor(elapsedTime2 / (1000) % 60);
+
+        return `${seconds}`;
+    }
+
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setTimeFinished(false);
+    };
+
+    const openModal2 = () => {
+        setElapsedTime2(4000);
+        setModalIsOpen2(true);
+        buttonRef.current?.blur();
+    };
+
+    const closeModal2 = () => {
+        setModalIsOpen2(false);
+    };
 
     useEffect(() => {
         if (isRunning) {
@@ -205,8 +247,53 @@ export const InputCheck = (props: Props) => {
     }, [isRunning]);
 
     useEffect(() => {
-        setElapsedTime(props.option * 1000)
+        if (isRunning2) {
+            intervalIdRef2.current = setInterval(() => {
+                setElapsedTime2((prevElapsedTime) => {
+                    const newElapsedTime = prevElapsedTime - 10;
+                    if (newElapsedTime <= 0) {
+                        clearInterval(intervalIdRef2.current);
+                        closeModal2();
+                        setTimeFinished(false);
+                        setIsRunning2(false);
+                        setIsRunning(true);
+                        setStarted2(false);
+                        return 0;
+                    }
+                    return newElapsedTime;
+                });
+                textareaRef.current?.focus();
+            }, 10);
+            textareaRef.current?.focus();
+        }
+        textareaRef.current?.focus();
+        return () => {
+            clearInterval(intervalIdRef2.current);
+        };
+    }, [isRunning2]);
+
+    useEffect(() => {
+        setWrittenText('');
+        setCorrectLetters(0);
+        setCoveragePercentage(0);
+        setElapsedTime(props.option * 1000);
+        setIsRunning(false);
+        setTimeFinished(false);
+        setStarted2(true);
     }, [props.option]);
+
+    useEffect(() => {
+        if (timeFinished) openModal()
+        else closeModal()
+    }, [timeFinished]);
+
+    useEffect(() => {
+        if (!modalIsOpen2) {
+            textareaRef.current?.focus();
+        }
+    }, [modalIsOpen2]);
+
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     return(<>
             <div>
@@ -217,12 +304,16 @@ export const InputCheck = (props: Props) => {
             <div className="stopwatch">
                 <div className="display">{formatTime()}</div>
                 <div className="controls">
-                    <button onClick={handleChange} type="button" className="stop-button">{isRunning ? 'Stop' : 'Start'}</button>
+                    {(elapsedTime > 0 && started2 && (text.text !== '')) && <button onClick={startCountdown} ref={buttonRef}>
+                        STARCIK
+                    </button>}
+                    {/*<button onClick={handleChange} type="button"*/}
+                    {/*        className="stop-button">{isRunning ? 'Stop' : (elapsedTime === 0 ? 'Stats' : 'Start')}</button>*/}
                     <button onClick={reset} className="reset-button">Reset</button>
                 </div>
             </div>
             <div>
-                <div>
+            <div>
                     {highlightedLetters(text?.text as string, writtenText)}
                 </div>
                 <textarea
@@ -236,6 +327,54 @@ export const InputCheck = (props: Props) => {
                 <p>Correct letters: {correctLetters}/{text.text.length}</p>
                 <p>Correctness: {coveragePercentage.toFixed(2)}%</p>
             </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Image Modal"
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 999,
+                    },
+                    content: {
+                        width: '1050px',
+                        margin: 'auto',
+                        height: '660px',
+                        zIndex: "1000",
+                        padding: '0px',
+                        background: '#171717',
+                        border: "2px solid #0f405d",
+                        borderRadius: "20px",
+                        color: "white",
+                        textAlign: "center"
+                    },
+                }}>
+                <div>HEJKA</div>
+            </Modal>
+            <Modal
+                isOpen={modalIsOpen2}
+                onRequestClose={closeModal2}
+                contentLabel="Image Modal"
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 999,
+                    },
+                    content: {
+                        width: '1050px',
+                        margin: 'auto',
+                        height: '660px',
+                        zIndex: "1000",
+                        padding: '0px',
+                        background: '#171717C4',
+                        border: "2px solid #0f405d",
+                        borderRadius: "20px",
+                        color: "white",
+                        textAlign: "center"
+                    },
+                }}>
+                <div>HEJKA {formatTime2()}</div>
+            </Modal>
         </>
     );
 
