@@ -33,6 +33,7 @@ export const InputCheck = (props: Props) => {
     const [modalIsOpen2, setModalIsOpen2] = useState(false);
     const [started2, setStarted2] = useState<boolean>(true);
 
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     const texts: Texts[] = [
         {
@@ -106,6 +107,8 @@ export const InputCheck = (props: Props) => {
     ]
 
     const randomize = () => {
+        setCorrectLetters(0);
+        setCoveragePercentage(0);
         setText(texts[Math.floor(Math.random() * texts.length)])
         setWrittenText('');
         setElapsedTime(props.option * 1000);
@@ -119,9 +122,6 @@ export const InputCheck = (props: Props) => {
         let percentage, correctCount
         setWrittenText(e);
 
-        if(e.length === text.text.length) {
-            setIsRunning(false);
-        }
         if (e === '') {
             percentage = 0
             correctCount = 0
@@ -135,6 +135,12 @@ export const InputCheck = (props: Props) => {
 
         setCorrectLetters(correctCount);
         setCoveragePercentage(percentage);
+
+        if (e.length === text.text.length) {
+            setTimeFinished(true);
+            setIsRunning(false);
+            return
+        }
     }
 
     const highlightedLetters = (textInput: string, writtenText: string): React.JSX.Element[] => {
@@ -218,6 +224,10 @@ export const InputCheck = (props: Props) => {
         setModalIsOpen2(false);
     };
 
+    const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+    };
+
     useEffect(() => {
         if (isRunning) {
             intervalIdRef.current = setInterval(() => {
@@ -293,8 +303,6 @@ export const InputCheck = (props: Props) => {
         }
     }, [modalIsOpen2]);
 
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
-
     return(<>
             <div>
                 <button onClick={() => randomize()}>
@@ -320,6 +328,7 @@ export const InputCheck = (props: Props) => {
                     ref={textareaRef}
                     value={writtenText}
                     onChange={e => checkLetter(e.target.value)}
+                    onPaste={handlePaste}
                     readOnly={text.text.length === writtenText.length || text.text.length === 0 || started}
                 />
             </div>
