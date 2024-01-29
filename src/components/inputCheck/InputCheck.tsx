@@ -1,4 +1,7 @@
 import React, {JSX, useEffect, useRef, useState} from "react";
+import Modal from "react-modal";
+import '../../styles/InputCheck.css'
+
 interface Props {
     option: number
 }
@@ -23,7 +26,17 @@ export const InputCheck = (props: Props) => {
     const [coveragePercentage, setCoveragePercentage] = useState<number>(0);
     const [started, setStarted] = useState<boolean>(false);
     const [timeFinished, setTimeFinished] = useState<boolean>(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const [isRunning2, setIsRunning2] = useState<boolean>(false);
+    const [elapsedTime2, setElapsedTime2] = useState<number>(4000);
+    const intervalIdRef2 = useRef<null | any>(null);
+    const [modalIsOpen2, setModalIsOpen2] = useState(false);
+    const [started2, setStarted2] = useState<boolean>(true);
+
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    const [statsAvailable, setStatsAvailable] = useState<boolean>(false);
 
     const texts: Texts[] = [
         {
@@ -97,11 +110,15 @@ export const InputCheck = (props: Props) => {
     ]
 
     const randomize = () => {
+        setCorrectLetters(0);
+        setCoveragePercentage(0);
         setText(texts[Math.floor(Math.random() * texts.length)])
         setWrittenText('');
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
         setTimeFinished(false);
+        setStarted2(true);
+        setStatsAvailable(false);
     }
 
     function checkLetter(e:string) {
@@ -109,9 +126,6 @@ export const InputCheck = (props: Props) => {
         let percentage, correctCount
         setWrittenText(e);
 
-        if(e.length === text.text.length) {
-            setIsRunning(false);
-        }
         if (e === '') {
             percentage = 0
             correctCount = 0
@@ -125,6 +139,13 @@ export const InputCheck = (props: Props) => {
 
         setCorrectLetters(correctCount);
         setCoveragePercentage(percentage);
+
+        if (e.length === text.text.length) {
+            setStatsAvailable(true);
+            setTimeFinished(true);
+            setIsRunning(false);
+            return
+        }
     }
 
     const highlightedLetters = (textInput: string, writtenText: string): React.JSX.Element[] => {
@@ -144,15 +165,10 @@ export const InputCheck = (props: Props) => {
         return result
     }
 
-    function handleChange() {
-        if (text.text === '') return
-        if (writtenText.length === text.text.length) {
-            setTimeFinished(true);
-            return
-        }
-        setTimeFinished(false);
-        setIsRunning((prev) => !prev);
-    }
+    const startCountdown = () => {
+        setIsRunning2(true);
+        openModal2();
+    };
 
     function reset() {
         setWrittenText('');
@@ -161,6 +177,8 @@ export const InputCheck = (props: Props) => {
         setElapsedTime(props.option * 1000);
         setIsRunning(false);
         setTimeFinished(false);
+        setStarted2(true);
+        setStatsAvailable(false);
     }
 
     function formatTime(){
@@ -175,6 +193,40 @@ export const InputCheck = (props: Props) => {
 
         return `${minutes}:${seconds}:${milliseconds}`;
     }
+
+    function formatTime2(){
+
+        const seconds: number | string = Math.floor(elapsedTime2 / (1000) % 60);
+
+        return `${seconds}`;
+    }
+
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setTimeFinished(false);
+    };
+
+    const showStats =() => {
+        openModal();
+    }
+
+    const openModal2 = () => {
+        setElapsedTime2(4000);
+        setModalIsOpen2(true);
+        buttonRef.current?.blur();
+    };
+
+    const closeModal2 = () => {
+        setModalIsOpen2(false);
+    };
+
+    const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+    };
 
     useEffect(() => {
         if (isRunning) {
@@ -205,8 +257,55 @@ export const InputCheck = (props: Props) => {
     }, [isRunning]);
 
     useEffect(() => {
-        setElapsedTime(props.option * 1000)
+        if (isRunning2) {
+            intervalIdRef2.current = setInterval(() => {
+                setElapsedTime2((prevElapsedTime) => {
+                    const newElapsedTime = prevElapsedTime - 10;
+                    if (newElapsedTime <= 0) {
+                        clearInterval(intervalIdRef2.current);
+                        closeModal2();
+                        setTimeFinished(false);
+                        setIsRunning2(false);
+                        setIsRunning(true);
+                        setStarted2(false);
+                        return 0;
+                    }
+                    return newElapsedTime;
+                });
+                textareaRef.current?.focus();
+            }, 10);
+            textareaRef.current?.focus();
+        }
+        textareaRef.current?.focus();
+        return () => {
+            clearInterval(intervalIdRef2.current);
+        };
+    }, [isRunning2]);
+
+    useEffect(() => {
+        setWrittenText('');
+        setCorrectLetters(0);
+        setCoveragePercentage(0);
+        setElapsedTime(props.option * 1000);
+        setIsRunning(false);
+        setTimeFinished(false);
+        setStarted2(true);
+        setStatsAvailable(false);
     }, [props.option]);
+
+    useEffect(() => {
+        if (timeFinished) {
+            setStatsAvailable(true);
+            openModal();
+        }
+        else closeModal()
+    }, [timeFinished]);
+
+    useEffect(() => {
+        if (!modalIsOpen2) {
+            textareaRef.current?.focus();
+        }
+    }, [modalIsOpen2]);
 
     return(<>
             <div>
@@ -217,18 +316,24 @@ export const InputCheck = (props: Props) => {
             <div className="stopwatch">
                 <div className="display">{formatTime()}</div>
                 <div className="controls">
-                    <button onClick={handleChange} type="button" className="stop-button">{isRunning ? 'Stop' : 'Start'}</button>
+                    {(elapsedTime > 0 && started2 && (text.text !== '')) && <button onClick={startCountdown} ref={buttonRef}>
+                        STARCIK
+                    </button>}
+                    {statsAvailable &&
+                        <button onClick={showStats} type="button"
+                                className="stop-button">Stats</button>}
                     <button onClick={reset} className="reset-button">Reset</button>
                 </div>
             </div>
             <div>
-                <div>
+            <div>
                     {highlightedLetters(text?.text as string, writtenText)}
                 </div>
                 <textarea
                     ref={textareaRef}
                     value={writtenText}
                     onChange={e => checkLetter(e.target.value)}
+                    onPaste={handlePaste}
                     readOnly={text.text.length === writtenText.length || text.text.length === 0 || started}
                 />
             </div>
@@ -236,6 +341,57 @@ export const InputCheck = (props: Props) => {
                 <p>Correct letters: {correctLetters}/{text.text.length}</p>
                 <p>Correctness: {coveragePercentage.toFixed(2)}%</p>
             </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={true}
+                shouldCloseOnEsc={true}
+                contentLabel="Results Modal"
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 999,
+                    },
+                    content: {
+                        width: '1050px',
+                        margin: 'auto',
+                        height: '660px',
+                        zIndex: "1000",
+                        padding: '0px',
+                        background: '#171717',
+                        border: "2px solid #0f405d",
+                        borderRadius: "20px",
+                        color: "white",
+                        textAlign: "center",
+                        animation: `${modalIsOpen ? 'slideInFromTop' : 'slideOutToTop'} 0.5s ease`,
+                        transformOrigin: 'top',
+                    },
+                }}>
+                <div>HEJKA</div>
+            </Modal>
+            <Modal
+                isOpen={modalIsOpen2}
+                contentLabel="Style Modal"
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 999,
+                    },
+                    content: {
+                        width: '500px',
+                        margin: 'auto',
+                        height: '300px',
+                        zIndex: "1000",
+                        padding: 'auto',
+                        background: '#171717C4',
+                        border: "2px solid #0f405d",
+                        borderRadius: "20px",
+                        color: "white",
+                        textAlign: "center"
+                    },
+                }}>
+                <div>HEJKA {formatTime2()}</div>
+            </Modal>
         </>
     );
 
