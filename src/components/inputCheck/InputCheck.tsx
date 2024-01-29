@@ -1,5 +1,6 @@
 import React, {JSX, useEffect, useRef, useState} from "react";
 import Modal from "react-modal";
+import '../../styles/InputCheck.css'
 
 interface Props {
     option: number
@@ -34,6 +35,8 @@ export const InputCheck = (props: Props) => {
     const [started2, setStarted2] = useState<boolean>(true);
 
     const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    const [statsAvailable, setStatsAvailable] = useState<boolean>(false);
 
     const texts: Texts[] = [
         {
@@ -115,6 +118,7 @@ export const InputCheck = (props: Props) => {
         setIsRunning(false);
         setTimeFinished(false);
         setStarted2(true);
+        setStatsAvailable(false);
     }
 
     function checkLetter(e:string) {
@@ -137,6 +141,7 @@ export const InputCheck = (props: Props) => {
         setCoveragePercentage(percentage);
 
         if (e.length === text.text.length) {
+            setStatsAvailable(true);
             setTimeFinished(true);
             setIsRunning(false);
             return
@@ -160,16 +165,6 @@ export const InputCheck = (props: Props) => {
         return result
     }
 
-    function handleChange() {
-        if (text.text === '') return
-        if (writtenText.length === text.text.length) {
-            setTimeFinished(true);
-            return
-        }
-        setTimeFinished(false);
-        setIsRunning((prev) => !prev);
-    }
-
     const startCountdown = () => {
         setIsRunning2(true);
         openModal2();
@@ -183,6 +178,7 @@ export const InputCheck = (props: Props) => {
         setIsRunning(false);
         setTimeFinished(false);
         setStarted2(true);
+        setStatsAvailable(false);
     }
 
     function formatTime(){
@@ -213,6 +209,10 @@ export const InputCheck = (props: Props) => {
         setModalIsOpen(false);
         setTimeFinished(false);
     };
+
+    const showStats =() => {
+        openModal();
+    }
 
     const openModal2 = () => {
         setElapsedTime2(4000);
@@ -290,10 +290,14 @@ export const InputCheck = (props: Props) => {
         setIsRunning(false);
         setTimeFinished(false);
         setStarted2(true);
+        setStatsAvailable(false);
     }, [props.option]);
 
     useEffect(() => {
-        if (timeFinished) openModal()
+        if (timeFinished) {
+            setStatsAvailable(true);
+            openModal();
+        }
         else closeModal()
     }, [timeFinished]);
 
@@ -315,8 +319,9 @@ export const InputCheck = (props: Props) => {
                     {(elapsedTime > 0 && started2 && (text.text !== '')) && <button onClick={startCountdown} ref={buttonRef}>
                         STARCIK
                     </button>}
-                    {/*<button onClick={handleChange} type="button"*/}
-                    {/*        className="stop-button">{isRunning ? 'Stop' : (elapsedTime === 0 ? 'Stats' : 'Start')}</button>*/}
+                    {statsAvailable &&
+                        <button onClick={showStats} type="button"
+                                className="stop-button">Stats</button>}
                     <button onClick={reset} className="reset-button">Reset</button>
                 </div>
             </div>
@@ -339,7 +344,9 @@ export const InputCheck = (props: Props) => {
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                contentLabel="Image Modal"
+                shouldCloseOnOverlayClick={true}
+                shouldCloseOnEsc={true}
+                contentLabel="Results Modal"
                 style={{
                     overlay: {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -355,26 +362,27 @@ export const InputCheck = (props: Props) => {
                         border: "2px solid #0f405d",
                         borderRadius: "20px",
                         color: "white",
-                        textAlign: "center"
+                        textAlign: "center",
+                        animation: `${modalIsOpen ? 'slideInFromTop' : 'slideOutToTop'} 0.5s ease`,
+                        transformOrigin: 'top',
                     },
                 }}>
                 <div>HEJKA</div>
             </Modal>
             <Modal
                 isOpen={modalIsOpen2}
-                onRequestClose={closeModal2}
-                contentLabel="Image Modal"
+                contentLabel="Style Modal"
                 style={{
                     overlay: {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         zIndex: 999,
                     },
                     content: {
-                        width: '1050px',
+                        width: '500px',
                         margin: 'auto',
-                        height: '660px',
+                        height: '300px',
                         zIndex: "1000",
-                        padding: '0px',
+                        padding: 'auto',
                         background: '#171717C4',
                         border: "2px solid #0f405d",
                         borderRadius: "20px",
