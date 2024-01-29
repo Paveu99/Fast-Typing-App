@@ -1,6 +1,7 @@
 import React, {JSX, useEffect, useRef, useState} from "react";
 import Modal from "react-modal";
 import '../../styles/InputCheck.css'
+import { CountdownView } from "../../views/CountdownView";
 
 interface Props {
     option: number
@@ -29,7 +30,7 @@ export const InputCheck = (props: Props) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const [isRunning2, setIsRunning2] = useState<boolean>(false);
-    const [elapsedTime2, setElapsedTime2] = useState<number>(4000);
+    const [elapsedTime2, setElapsedTime2] = useState<number>(5000);
     const intervalIdRef2 = useRef<null | any>(null);
     const [modalIsOpen2, setModalIsOpen2] = useState(false);
     const [started2, setStarted2] = useState<boolean>(true);
@@ -215,7 +216,7 @@ export const InputCheck = (props: Props) => {
     }
 
     const openModal2 = () => {
-        setElapsedTime2(4000);
+        setElapsedTime2(5000);
         setModalIsOpen2(true);
         buttonRef.current?.blur();
     };
@@ -378,9 +379,13 @@ export const InputCheck = (props: Props) => {
                         zIndex: 999,
                     },
                     content: {
-                        width: '500px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        width: '450px',
                         margin: 'auto',
-                        height: '300px',
+                        height: '275px',
                         zIndex: "1000",
                         padding: 'auto',
                         background: '#171717C4',
@@ -390,7 +395,7 @@ export const InputCheck = (props: Props) => {
                         textAlign: "center"
                     },
                 }}>
-                <div>HEJKA {formatTime2()}</div>
+                <CountdownView time={formatTime2()}/>
             </Modal>
         </>
     );
