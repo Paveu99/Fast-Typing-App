@@ -308,7 +308,7 @@ export const InputCheck = (props: Props) => {
         }
     }, [modalIsOpen2]);
 
-    return(<>
+    return(<div className="working-area">
             <div>
                 <button onClick={() => randomize()}>
                     Randomize
@@ -331,6 +331,7 @@ export const InputCheck = (props: Props) => {
                     {highlightedLetters(text?.text as string, writtenText)}
                 </div>
                 <textarea
+                    className="typed-text"
                     ref={textareaRef}
                     value={writtenText}
                     onChange={e => checkLetter(e.target.value)}
@@ -397,7 +398,7 @@ export const InputCheck = (props: Props) => {
                 }}>
                 <CountdownView time={formatTime2()}/>
             </Modal>
-        </>
+        </div>
     );
 
 }
