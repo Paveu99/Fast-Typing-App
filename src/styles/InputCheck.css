@@ -23,14 +23,27 @@
     align-items: center;
 }
 
+.example-text {
+    width: 90vw;
+    text-align: justify;
+    margin-top: 20px;
+}
+
+.name {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.2em;
+}
+
 .typed-text {
+    font-family: "Calibri Light";
     width: 90vw;
     height: 200px;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
-    font-size: 16px;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
