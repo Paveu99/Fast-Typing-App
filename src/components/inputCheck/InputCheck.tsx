@@ -15,7 +15,7 @@ interface Texts {
 export const InputCheck = (props: Props) => {
 
     const [text, setText] = useState<Texts>({
-        title: 'Draw text first',
+        title: '',
         text: ''
     });
     const [writtenText, setWrittenText] = useState<string>('');
@@ -327,9 +327,12 @@ export const InputCheck = (props: Props) => {
                 </div>
             </div>
             <div>
-            <div>
+            <div className="example-text name">
+                    {text?.title}
+            </div>
+            <div className="example-text">
                     {highlightedLetters(text?.text as string, writtenText)}
-                </div>
+            </div>
                 <textarea
                     className="typed-text"
                     ref={textareaRef}
