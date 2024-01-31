@@ -333,7 +333,7 @@ export const InputCheck = (props: Props) => {
                         <button onClick={showStats} type="button"
                                 className="stats-button">Stats</button>}
                     <button onClick={reset} className="reset-button">Reset</button>
-                    <button className="stats-button" onClick={() => randomize()}>
+                    <button className="random-button" onClick={() => randomize()}>
                         Randomize
                     </button>
                 </div>

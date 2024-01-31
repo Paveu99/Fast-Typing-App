@@ -97,12 +97,29 @@
     height: 30px;
     font-size: 15px;
     color: #000000;
-    background-color: #0066cc;
+    background-color: #ccbb00;
     border: 2px solid black;
     border-radius: 10px;
 }
 
 .stats-button:hover {
+    color: #fff;
+    background-color: #323232;
+    cursor: pointer;
+}
+.random-button {
+    font-weight: bold;
+    margin: 10px 0px 0px 0px;
+    padding: 0 15px 0 15px;
+    height: 30px;
+    font-size: 15px;
+    color: #000000;
+    background-color: #0066cc;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.random-button:hover {
     color: #fff;
     background-color: #323232;
     cursor: pointer;
