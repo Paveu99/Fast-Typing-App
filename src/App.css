@@ -5,3 +5,47 @@ header {
     align-items: center;
     margin: 0;
 }
+
+.time-choosing {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-input {
+    width: 50px;
+    height: 25px;
+    font-size: 20px;
+    border-radius: 12.5px;
+    text-decoration: none;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.time-shortcut {
+    font-size: 20px;
+    height: 30px;
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.time-shortcut:active {
+    background-color: #b4b4b4;
+}
+
+.time-shortcut:hover {
+    cursor: pointer;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Dla Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
