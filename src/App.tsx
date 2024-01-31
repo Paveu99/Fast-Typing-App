@@ -17,17 +17,39 @@ function App() {
             <header>
                 <AppName/>
             </header>
-            <section>
+            <section style={{display: "flex", justifyContent: "center"}}>
                 <Description/>
             </section>
             <section>
-                <label>How long would like to type?</label>
-                <input
-                    type="number"
-                    value={timeChosen}
-                    onChange={e => checkInput(Number(e.target.value))}
-                    min={20}
-                />
+                <div className="time-choosing">
+                    <label style={{fontSize: "25px"}}>How long would like to type?</label>
+                    <input
+                        type="number"
+                        value={timeChosen}
+                        onChange={e => checkInput(Number(e.target.value))}
+                        min={20}
+                        className="time-input"
+                    />
+                    <button
+                        className="time-shortcut"
+                        onClick={() => checkInput(30)}
+                    >
+                        30
+                    </button>
+                    <button
+                        className="time-shortcut"
+                        onClick={() => checkInput(60)}
+                    >
+                        60
+                    </button>
+                    <button
+                        className="time-shortcut"
+                        value={90}
+                        onClick={() => checkInput(90)}
+                    >
+                        90
+                    </button>
+                </div>
                 <InputCheck option={timeChosen}/>
             </section>
         </div>
