@@ -1,5 +1,9 @@
+import '../../styles/Description.css'
 export const Description = () => {
-    return <p style={{textAlign: "justify"}}>
-        Hi this is a responsive web application, which helps you get faster at typing! All you have to do is to choose a duration of time and randomly select a text. That's all. Have fun!
+    return <p className="description" style={{textAlign: "justify"}}>
+        Hi there! I would like to welcome you to this is responsive web application,
+        which might help you get faster at typing!
+        All you have to do is to choose a duration of time and select a random text provided by myself.
+        That's all. <span style={{fontWeight: 'bold'}}>Have fun!</span>
     </p>
 }
