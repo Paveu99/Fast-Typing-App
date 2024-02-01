@@ -11,12 +11,23 @@ header {
     gap: 10px;
     justify-content: center;
     align-items: center;
+    height: 70px;
+}
+
+@media screen and (max-width: 576px) {
+    .time-choosing {
+        height: 100px;
+        margin-bottom: 15px;
+    }
 }
 
 .time-input {
+    background-color: black;
+    color: white;
+    font-weight: bold;
     width: 50px;
-    height: 25px;
-    font-size: 20px;
+    height: 100%;
+    font-size: 25px;
     border-radius: 12.5px;
     text-decoration: none;
     border: 1px solid black;
@@ -48,4 +59,23 @@ input::-webkit-outer-spin-button {
 /* Dla Firefox */
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.question {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    flex-wrap: wrap;
+}
+
+.buttons {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+}
+
+.buttons button {
+    width: 100%;
 }
