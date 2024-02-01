@@ -15,7 +15,7 @@ interface Texts {
 export const InputCheck = (props: Props) => {
 
     const [text, setText] = useState<Texts>({
-        title: 'Draw text first',
+        title: '',
         text: ''
     });
     const [writtenText, setWrittenText] = useState<string>('');
@@ -158,10 +158,23 @@ export const InputCheck = (props: Props) => {
 
             const isCorrect = originalLetter === typedLetter;
 
-            result.push(<span key={i} style={{ color: isCorrect ? 'green' : 'red', backgroundColor: isCorrect ? 'lightgreen' : 'lightpink'}}>{originalLetter}</span>);
-
+            result.push(<span
+                key={i}
+                style={
+                {
+                    color: isCorrect ? 'green' : 'red',
+                    backgroundColor: isCorrect ? 'lightgreen' : 'lightpink',
+                    borderRadius: "15%"}}
+            >
+                {originalLetter}
+            </span>);
         }
-        result.push((writtenText.length === 0) ? <span>{textInput}</span> : <span>{textInput.slice(writtenText.length)}</span>)
+
+        result.push(
+            (writtenText.length === 0) ?
+                <span>{textInput}</span> :
+                <span>{textInput.slice(writtenText.length)}
+                </span>)
 
         return result
     }
@@ -308,29 +321,32 @@ export const InputCheck = (props: Props) => {
         }
     }, [modalIsOpen2]);
 
-    return(<>
-            <div>
-                <button onClick={() => randomize()}>
-                    Randomize
-                </button>
-            </div>
+    return(<div className="working-area">
             <div className="stopwatch">
-                <div className="display">{formatTime()}</div>
+                <div className="displayed-time">{formatTime()}</div>
                 <div className="controls">
-                    {(elapsedTime > 0 && started2 && (text.text !== '')) && <button onClick={startCountdown} ref={buttonRef}>
-                        STARCIK
-                    </button>}
+                    {(elapsedTime > 0 && started2 && (text.text !== '')) &&
+                        <button className="start-button" onClick={startCountdown} ref={buttonRef}>
+                            Start
+                        </button>}
                     {statsAvailable &&
                         <button onClick={showStats} type="button"
-                                className="stop-button">Stats</button>}
+                                className="stats-button">Stats</button>}
                     <button onClick={reset} className="reset-button">Reset</button>
+                    <button className="random-button" onClick={() => randomize()}>
+                        Randomize
+                    </button>
                 </div>
             </div>
             <div>
-            <div>
-                    {highlightedLetters(text?.text as string, writtenText)}
-                </div>
+                {text.title !== '' && <div className="original-text">
+                    {<div className="example-text name">"{text?.title}"</div>}
+                    <div className="example-text">
+                        {highlightedLetters(text?.text as string, writtenText)}
+                    </div>
+                </div>}
                 <textarea
+                    className="typed-text"
                     ref={textareaRef}
                     value={writtenText}
                     onChange={e => checkLetter(e.target.value)}
@@ -397,7 +413,7 @@ export const InputCheck = (props: Props) => {
                 }}>
                 <CountdownView time={formatTime2()}/>
             </Modal>
-        </>
+        </div>
     );
 
 }
