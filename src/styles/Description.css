@@ -1,0 +1,10 @@
+.description {
+    font-size: 25px;
+    font-style: italic;
+}
+
+@media screen and (max-width: 576px) {
+    .description {
+        font-size: 18px;
+    }
+}
