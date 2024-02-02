@@ -18,7 +18,7 @@ export const CountdownView = (props: Props) => {
         switch (props.time) {
             case '4':
                 setLights(
-                    <div>
+                    <div className="lights">
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el1} alt="" className="wait-light"/>
                         <img src={el1} alt="" className="wait-light"/>
@@ -29,7 +29,7 @@ export const CountdownView = (props: Props) => {
                 break;
             case '3':
                 setLights(
-                    <div>
+                    <div className="lights">
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el1} alt="" className="wait-light"/>
@@ -40,7 +40,7 @@ export const CountdownView = (props: Props) => {
                 break;
             case '2':
                 setLights(
-                    <div>
+                    <div className="lights">
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
@@ -51,7 +51,7 @@ export const CountdownView = (props: Props) => {
                 break;
             case '1':
                 setLights(
-                    <div>
+                    <div className="lights">
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
@@ -62,7 +62,7 @@ export const CountdownView = (props: Props) => {
                 break;
             case '0':
                 setLights(
-                    <div>
+                    <div className="lights">
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
                         <img src={el2} alt="" className="go-light"/>
