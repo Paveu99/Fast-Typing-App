@@ -2,6 +2,7 @@ import React, {JSX, useEffect, useRef, useState} from "react";
 import Modal from "react-modal";
 import '../../styles/InputCheck.css'
 import { CountdownView } from "../../views/CountdownView";
+import {ResultsView} from "../../views/ResultsView.tsx";
 
 interface Props {
     option: number
@@ -340,7 +341,7 @@ export const InputCheck = (props: Props) => {
             </div>
             <div>
                 {text.title !== '' && <div className="original-text">
-                    {<div className="example-text name">"{text?.title}"</div>}
+                    {<div className="example-text name">"{text?.title}" - {text?.text.length} letters</div>}
                     <div className="example-text">
                         {highlightedLetters(text?.text as string, writtenText)}
                     </div>
@@ -355,7 +356,7 @@ export const InputCheck = (props: Props) => {
                 />
             </div>
             <div className="live-stats">
-                <p>Correct letters: {correctLetters}/{text.text.length}</p>
+                <p>Correct letters: {correctLetters}/{writtenText.length}</p>
                 <p>Correctness: {coveragePercentage.toFixed(2)}%</p>
             </div>
             <Modal
@@ -370,9 +371,9 @@ export const InputCheck = (props: Props) => {
                         zIndex: 999,
                     },
                     content: {
-                        width: '1050px',
+                        maxWidth: '800px',
                         margin: 'auto',
-                        height: '660px',
+                        height: '75vh',
                         zIndex: "1000",
                         padding: '0px',
                         background: '#171717',
@@ -384,7 +385,14 @@ export const InputCheck = (props: Props) => {
                         transformOrigin: 'top',
                     },
                 }}>
-                <div>HEJKA</div>
+                <ResultsView
+                    correctLetters={correctLetters}
+                    percentage={coveragePercentage}
+                    textLength={text.text.length}
+                    setTime={props.option}
+                    timePassed={Math.floor(props.option - (elapsedTime)/1000)}
+                    writtenLetters={writtenText.length}
+                />
             </Modal>
             <Modal
                 isOpen={modalIsOpen2}
@@ -398,8 +406,7 @@ export const InputCheck = (props: Props) => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        flexDirection: 'column',
-                        width: '450px',
+                        maxWidth: '450px',
                         margin: 'auto',
                         height: '275px',
                         zIndex: "1000",
