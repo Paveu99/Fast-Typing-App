@@ -1,0 +1,21 @@
+.title {
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+    border-right: 4px solid #ffffff;
+    animation: cursor 1s infinite step-end, typing 15s infinite steps(16);
+    white-space: nowrap;
+    overflow: hidden;
+}
+@keyframes cursor{
+    0%, 100%{border-color: transparent;}
+    50%{border-color: #ffffff;}
+}
+
+@keyframes typing{
+    0%{ width: 0ch}
+    30%{ width: 16ch;}
+    80%{ width: 16ch;}
+    90%{ width: 0ch;}
+    100%{ width: 0ch;}
+}
