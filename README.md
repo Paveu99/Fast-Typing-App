@@ -1,5 +1,5 @@
 # Fast Typing App
-image insert
+<img width="1280" alt="image" src="https://github.com/Paveu99/Fast-Typing-App/assets/100468919/e2a60fc7-e9e4-4d9b-9482-dff6ab8c772f">
 
 # General info
 Introducing "Fast Typing App" – Your Ultimate Typing Challenge!
@@ -30,16 +30,18 @@ Are you ready to elevate your typing skills to new heights? Look no further! "Fa
 
 Revolutionize the way you approach typing challenges with "Fast Typing App." Whether you're a seasoned typist or just starting, this app is your go-to companion for a fun and effective typing experience. Start your typing journey today – click, type, and conquer!
 
-<img width="1279" alt="image" src="https://github.com/Paveu99/BinanceAppBack/assets/100468919/a2e301c1-0f6c-4072-9f5a-bc31533c8e5e">
-
-Application as a whole is split into 2 sides: backend and frontend, which are contected via cors policy. Moreover types from backend are send to frontend thanks to customize-cra.
-
 # Table of content
 - Demo
 - Technologies
 
 # Demo
-Here is a demonstration how it works: https://youtu.be/z-WQBttCsMQ
+Here is a demonstration how it works:
+
+But if you want to run it by yourself download it and type in:
+- npm install,
+- npm run dev - in order to run it in developer state,
+- npm run build - to build it in dist directory,
+- npm run serve - to run it in production mode.
 
 # Tech stack
 Server side was created using:
