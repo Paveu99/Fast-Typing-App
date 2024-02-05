@@ -65,8 +65,6 @@ To run the application, follow these steps:
     npm run serve
     ```
 
-Make sure to adjust the links and commands according to the structure of your project. When users click on the links, they can open them in a new browser tab, ready to copy and execute the commands.
-
 # Tech stack
 Front end side was created using:
 - react: 18.2.0,
