@@ -48,4 +48,5 @@ Front end side was created using:
 - react: 18.2.0,
 - react-modal: 3.16.1,
 - serve: 14.2.1,
-- type: 5.0.8.
+- typescript: 5.2.2,
+- vite: 5.0.8.
