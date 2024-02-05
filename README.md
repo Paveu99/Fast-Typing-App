@@ -42,7 +42,7 @@ To run the application, follow these steps:
 1. Clone the repository:
     ```bash
     git clone =https://github.com/Paveu99/Fast-Typing-App
-    cd your-repository
+    cd Fast-Typing-App
     ```
 
 2. Install dependencies:
