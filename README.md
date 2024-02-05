@@ -44,14 +44,8 @@ But if you want to run it by yourself download it and type in:
 - npm run serve - to run it in production mode.
 
 # Tech stack
-Server side was created using:
-- cors: 2.8.5,
-- express": 4.18.2,
-- express-async-errors": 3.1.1,
-- node-fetch: 2.6.12,
-- tachyons": 4.12.0,
-- typescript: 5.1.6,
-- uuid: 9.0.0,
-- mysql2: 3.6.0,
-- bcrypt: 5.1.1,
-- node-fetch: 2.6.12.
+Front end side was created using:
+- react: 18.2.0,
+- react-modal: 3.16.1,
+- serve: 14.2.1,
+- type: 5.0.8.
