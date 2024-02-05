@@ -37,11 +37,35 @@ Revolutionize the way you approach typing challenges with "Fast Typing App." Whe
 # Demo
 Here is a demonstration how it works:
 
-But if you want to run it by yourself download it and type in:
-- npm install,
-- npm run dev - in order to run it in developer state,
-- npm run build - to build it in dist directory,
-- npm run serve - to run it in production mode.
+To run the application, follow these steps:
+
+1. Clone the repository:
+    ```bash
+    git clone =https://github.com/Paveu99/Fast-Typing-App
+    cd your-repository
+    ```
+
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Start the application in development mode:
+    ```bash
+    npm run dev
+    ```
+
+4. If you want to build the production version:
+    ```bash
+    npm run build
+    ```
+
+5. To run the built version locally:
+    ```bash
+    npm run serve
+    ```
+
+Make sure to adjust the links and commands according to the structure of your project. When users click on the links, they can open them in a new browser tab, ready to copy and execute the commands.
 
 # Tech stack
 Front end side was created using:
