@@ -16,6 +16,17 @@ export const CountdownView = (props: Props) => {
 
     useEffect(() => {
         switch (props.time) {
+            case '5':
+                setLights(
+                    <div className="lights">
+                        <img src={el1} alt="" className="wait-light"/>
+                        <img src={el1} alt="" className="wait-light"/>
+                        <img src={el1} alt="" className="wait-light"/>
+                        <img src={el1} alt="" className="wait-light"/>
+                        <img src={el1} alt="" className="wait-light"/>
+                    </div>
+                );
+                break;
             case '4':
                 setLights(
                     <div className="lights">
