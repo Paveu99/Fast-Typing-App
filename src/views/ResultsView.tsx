@@ -3,7 +3,7 @@ import '../styles/ResultsView.css'
 interface Props {
     textLength: number,
     correctLetters: number,
-    percentage: number,
+    percentage: string,
     setTime: number,
     timePassed: number,
     writtenLetters: number,
@@ -28,7 +28,7 @@ export const ResultsView = (props: Props) => {
                     Correctness
                 </p>
                 <div className="single-stat">
-                    {props.correctLetters}%
+                    {props.percentage}%
                 </div>
             </div>
             <div className="stat">

@@ -387,7 +387,7 @@ export const InputCheck = (props: Props) => {
                 }}>
                 <ResultsView
                     correctLetters={correctLetters}
-                    percentage={coveragePercentage}
+                    percentage={coveragePercentage.toFixed(2)}
                     textLength={text.text.length}
                     setTime={props.option}
                     timePassed={Math.floor(props.option - (elapsedTime)/1000)}
