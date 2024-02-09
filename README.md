@@ -36,6 +36,8 @@ Revolutionize the way you approach typing challenges with "Fast Typing App." Whe
 
 # Demo
 Here is a demonstration how it works:
+- Mobile: https://www.youtube.com/watch?v=-xWNRKuexAk,
+- Desktop: https://www.youtube.com/watch?v=jxOpPLjdv5o
 
 To run the application, follow these steps:
 
